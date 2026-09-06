@@ -67,6 +67,16 @@ python -m pytest tests/ -q
 空状态给出下一步指引、错误信息附带修复方式；主题采用单一低饱和强调色 + 中性底色
 （见 `.streamlit/config.toml`）。
 
+## 界面预览
+
+| 商品数据总览 | 统计概览 |
+|---|---|
+| ![dashboard](docs/screenshots/01-dashboard.png) | ![stats](docs/screenshots/02-stats.png) |
+
+| 异常明细复核 | 运行历史 |
+|---|---|
+| ![quarantine](docs/screenshots/03-quarantine.png) | ![history](docs/screenshots/04-history.png) |
+
 运行结果示例：
 
 ```
