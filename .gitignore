@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 运行产物（均可由脚本重新生成）
+output/
+data/raw/*.xlsx
+
+# 数据库文件
+*.sqlite
+
+# 系统文件
+.DS_Store
+Thumbs.db

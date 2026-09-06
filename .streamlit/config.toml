@@ -1,0 +1,7 @@
+# Streamlit 主题：单一低饱和强调色，中性底色（不用纯黑纯白）
+[theme]
+base = "light"
+primaryColor = "#0F766E"
+backgroundColor = "#FAFAF8"
+secondaryBackgroundColor = "#F0F0EC"
+textColor = "#20201E"
