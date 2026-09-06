@@ -77,6 +77,40 @@ python -m pytest tests/ -q
 |---|---|
 | ![quarantine](docs/screenshots/03-quarantine.png) | ![history](docs/screenshots/04-history.png) |
 
+## MCP Server（AI 直连数据底座）
+
+`pipeline/mcp_server.py` 把数据底座暴露为 MCP（Model Context Protocol）服务器，
+Claude Code / ZCode 等 AI 客户端注册后即可用自然语言直接查询商品数据、运行历史——
+数据从"给人看的报表"升级为"给 AI 调用的工具层"。
+
+| 工具 | 作用 |
+|------|------|
+| `query_products` | 按类目 / 标题关键词查询商品列表 |
+| `get_categories` | 类目维度表（各条目数、均价） |
+| `get_stats` | 底座总览（总数、来源分布） |
+| `get_pipeline_runs` | 管道运行历史 |
+
+- **协议实现**：MCP over stdio（JSON-RPC 2.0，握手 / 工具发现 / 工具调用 / 错误码）。
+  官方 MCP Python SDK 要求 Python 3.10+，本机为 3.8，故按协议规范以标准库实现，
+  接口兼容官方客户端，可平滑替换为 FastMCP。
+- **安全设计**：数据库以只读模式打开（SQLite `mode=ro`），AI 只能查询、无法写入——
+  对应"不用管理员账号 / 不拿生产数据做无保护测试"的数据安全意识。
+- **注册方式**：在 MCP 客户端中添加 stdio server，command 为 `python`，
+  args 为 `pipeline/mcp_server.py` 的绝对路径。
+- **测试**：13 项协议与工具单元测试，另附 stdio 端到端冒烟流程。
+
+## 部署（Docker）
+
+```bash
+docker compose up -d        # 构建并启动，管理台 http://localhost:8501
+```
+
+`data/` 与 `output/` 以 volume 挂载进容器，重建镜像不丢数据。
+镜像内使用国内 pip 镜像源加速依赖安装。
+
+> 说明：开发机未安装 Docker，Dockerfile / compose 已按标准编写但构建流程未在本机实测，
+> 首次部署如遇问题按报错调整即可。
+
 运行结果示例：
 
 ```

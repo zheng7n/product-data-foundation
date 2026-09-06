@@ -1,0 +1,10 @@
+services:
+  app:
+    build: .
+    container_name: product-data-foundation
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data        # 数据源文件（容器内外共享）
+      - ./output:/app/output    # 数据库与校验报告（持久化）
+    restart: unless-stopped
